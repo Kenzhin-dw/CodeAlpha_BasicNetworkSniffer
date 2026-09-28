@@ -1,14 +1,14 @@
 # Final Public Repository Audit
 
-Audit date: 2026-09-24  
+Audit updated: 2026-09-29  
 Project: CodeAlpha Task 1 — Basic Network Sniffer
 
 ## Validation evidence
 
 - `README.md`, source modules, requirements, tests, architecture, installation, usage, testing, screenshot, research, and troubleshooting documents were inspected.
-- `python -m pytest -q` completed with `10 passed` against the final deliverable folder.
+- `python -m pytest -q` completed with `11 passed` against the final deliverable folder.
 - Streamlit `AppTest` loaded `app.py` and found no application exception.
-- The audit environment reported no libpcap provider. Live Windows packet capture was therefore not claimed as verified; the target-machine cases remain Pending in `docs/testing.md`.
+- Windows/Npcap live diagnostics verified Auto and All-active capture modes. Auto captured DNS, HTTP, HTTPS/TLS, TCP, and UDP metadata; All-active also captured the traffic but included more background/duplicate packets.
 - No machine-specific `C:\Users\...` path was found in repository content.
 - No high-risk secret-content pattern or sensitive capture/key/database/log extension was found.
 - Relative Markdown links were checked against local files during the final audit.
@@ -19,6 +19,7 @@ Project: CodeAlpha Task 1 — Basic Network Sniffer
 - Renamed the security section to clearly cover security and ethics.
 - Strengthened `.gitignore` for environment variants, captures, logs, databases, keys, credentials, IDE files, and all CSV files except the synthetic sample.
 - Added manual GitHub, video, LinkedIn, CodeAlpha form, and final checklist documentation.
+- Simplified interface selection with Auto, All-active, and an optional Advanced list; added a display-filter reset and total-versus-matching packet indicator.
 
 ## Safe to upload
 
@@ -43,4 +44,3 @@ Project: CodeAlpha Task 1 — Basic Network Sniffer
 - Git author name/email if commit privacy matters
 - Repository visibility and the final GitHub/LinkedIn URLs
 - Live capture results on the actual Windows/Npcap demonstration machine
-

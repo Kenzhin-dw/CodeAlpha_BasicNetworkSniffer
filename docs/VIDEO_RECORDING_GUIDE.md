@@ -22,7 +22,7 @@ Target length: approximately **5 minutes 30 seconds**. This is a project explana
 | 01:25–01:50 | Technology | Explain why Python, Scapy, Npcap, Pandas, Streamlit, and Pytest are used. | Technology Stack section. | `README.md` |
 | 01:50–03:00 | Live demonstration | Select the authorized interface, start capture, generate ICMP and DNS traffic, show metrics/table/chart/details, stop capture, and point out CSV export. | Dashboard and a second terminal. | Streamlit browser; PowerShell |
 | 03:00–04:10 | Technical implementation | Explain lifecycle protection, parser behavior, protocol classification, statistics, and metadata-only export. | Short focused code sections; do not scroll through every file. | `capture.py`, `parser.py`, `protocols.py`, `statistics.py`, `export.py` |
-| 04:10–04:35 | Testing/results | Run or show `python -m pytest -q`; state the verified result of 10 passing synthetic tests. Explain that target-machine live capture still depends on Npcap and permissions. | Test terminal and testing matrix. | PowerShell; `docs/testing.md` |
+| 04:10–04:35 | Testing/results | Run or show `python -m pytest -q`; state the verified result of 11 passing synthetic tests and the Windows/Npcap live diagnostic. | Test terminal and testing matrix. | PowerShell; `docs/testing.md` |
 | 04:35–05:00 | Security and ethics | Explain authorization, disabled payload preview, no TLS decryption, metadata-only CSV, and ignored capture files. | Security/Ethics and `.gitignore`. | `README.md`; `.gitignore` |
 | 05:00–05:20 | Limitations | Mention selected-interface visibility, best-effort application labels, TLS encryption, and the bounded educational design. | Limitations section. | `README.md` |
 | 05:20–05:40 | Conclusion | Summarize what was built and what you learned. | Final dashboard or README title. | Dashboard or `README.md` |
@@ -30,9 +30,9 @@ Target length: approximately **5 minutes 30 seconds**. This is a project explana
 ## Live demonstration sequence
 
 1. Show the dashboard in `Stopped` state.
-2. Select the active Wi-Fi or Ethernet interface. Avoid leaving a GUID visible longer than necessary.
+2. Keep **Auto (recommended)** selected. The individual GUID list is hidden unless Advanced is enabled.
 3. Confirm that payload preview is off.
-4. Click **Start Capture**.
+4. Click **Reset Display Filters**, then click **Start Capture**.
 5. In the terminal, run:
 
    ```powershell
@@ -54,4 +54,3 @@ If capture does not work, do not pretend that it does. Pause the recording, use 
 - Pause briefly when moving between the browser, terminal, and editor.
 - Do not show the GitHub authentication flow, email address, notifications, or saved credentials.
 - Record one short clean demonstration rather than a long unedited debugging session.
-

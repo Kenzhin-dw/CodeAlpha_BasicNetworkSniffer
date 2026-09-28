@@ -2,8 +2,8 @@
 
 ## Project
 
-- [ ] Live capture tested on the target Windows computer with Npcap
-- [x] Automated tests passed: 10 tests in the final local audit
+- [x] Live capture engine tested on Windows with Npcap using Auto and All-active modes
+- [x] Automated tests passed: 11 tests in the final local audit
 - [x] Streamlit AppTest loaded without an application exception
 - [x] README checked and finalized
 - [x] Installation, usage, architecture, testing, and troubleshooting documentation checked
@@ -29,7 +29,7 @@
 - [x] English transcript prepared
 - [x] Recording plan prepared
 - [x] One-page cheat sheet prepared
-- [ ] Application demonstration works with the chosen interface
+- [ ] Rehearse the final dashboard demonstration with Auto and reset filters
 - [ ] Video recorded
 - [ ] Duration is approximately 4–7 minutes
 - [ ] Audio is understandable
@@ -57,4 +57,3 @@
 - [ ] Both links opened in a private/incognito browser to verify access
 - [ ] Submission reviewed
 - [ ] Form submitted manually
-

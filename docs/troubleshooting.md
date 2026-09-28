@@ -4,7 +4,7 @@
 
 **Cause:** wrong interface, no new traffic, capture permission, or a disconnected adapter.  
 **How to check:** run `ping 8.8.8.8`, inspect the status, and compare the selected adapter with the active adapter in `ipconfig`.  
-**Fix:** select active Wi-Fi/Ethernet, run PowerShell as Administrator, stop/start capture, and generate fresh traffic.
+**Fix:** choose **Auto (recommended)**, click **Reset Display Filters**, run PowerShell as Administrator, stop/start capture, and generate fresh traffic. Retry **All active interfaces** only if Auto misses the required adapter.
 
 ## Npcap not found
 
@@ -28,7 +28,13 @@
 
 **Cause:** traffic uses Wi-Fi while Ethernet/VPN/virtual/loopback was selected.  
 **How to check:** use `ipconfig` and note which adapter owns the current local address/default gateway.  
-**Fix:** stop capture, select that adapter, and start again. Use Npcap Loopback only for `127.0.0.1`/`::1` tests.
+**Fix:** stop capture and choose **Auto (recommended)**. For traffic spread across virtual, physical, or loopback adapters, choose **All active interfaces**. Use Advanced only when a specific adapter is required.
+
+## ICMP works but DNS, HTTP, or HTTPS does not appear
+
+**Cause:** an ICMP display filter is still active, the wrong adapter was selected, or HTTP/HTTPS is being viewed only in the exclusive chart category instead of the detailed table label.  
+**How to check:** compare **Total Captured** with the matching-filter count. Run `nslookup example.com`, `curl.exe --http1.1 -I http://example.com/`, and `curl.exe --http1.1 -I https://example.com/`.  
+**Fix:** click **Reset Display Filters**, use **Auto (recommended)**, clear old data, and repeat the commands. HTTP and HTTPS/TLS appear as detailed labels in the table but are counted under TCP in the distribution chart. Retry **All active interfaces** if necessary.
 
 ## Streamlit keeps rerunning
 
@@ -58,7 +64,7 @@
 
 **Cause:** loopback traffic does not traverse Wi-Fi or Ethernet.  
 **How to check:** confirm the request targets `127.0.0.1` and look for the Npcap Loopback Adapter.  
-**Fix:** stop capture, select the loopback interface, restart capture, then repeat the request.
+**Fix:** stop capture, choose **All active interfaces** or the individual loopback interface under Advanced, restart capture, then repeat the request.
 
 ## Odd checksums or unexpectedly large packets
 
@@ -71,4 +77,3 @@
 **Cause:** the site redirected to HTTPS, the HTTP start line was not in the captured segment, or a nonstandard protocol uses the port.  
 **How to check:** use the documented controlled `curl.exe http://example.com/` test and inspect TCP rows.  
 **Fix:** accept TCP classification as valid metadata. Port and payload-based application identification is best-effort.
-

@@ -2,17 +2,20 @@
 
 ## Start and stop
 
-Run `python -m streamlit run app.py`, select an interface, and click **Start Capture**. The status changes to `Running`. Generate ordinary traffic from the same computer, then click **Stop Capture** before ending the demo.
+Run `python -m streamlit run app.py`, keep **Auto (recommended)** selected, and click **Start Capture**. The status changes to `Running`. Generate ordinary traffic from the same computer, then click **Stop Capture** before ending the demo.
 
 Streamlit reruns are safe: the capture manager is cached and refuses a second start while one sniffer is already running.
 
 ## Dashboard controls
 
-- **Network Interface:** choose the adapter carrying the traffic. Wi-Fi, Ethernet, VPN, and Npcap loopback are separate interfaces.
+- **Auto (recommended):** uses Scapy's default-route interface. This is normally the correct choice for DNS, HTTP, HTTPS, and ping traffic.
+- **All active interfaces:** captures interfaces with usable IP addresses, including loopback. It can show duplicate broadcast or virtual-adapter traffic and uses more resources.
+- **Advanced: show individual interfaces:** reveals the full adapter list only when a specific Wi-Fi, Ethernet, VPN, virtual, or loopback adapter is needed.
 - **Optional sanitized payload preview:** off by default; affects only newly captured packets and stores at most 64 printable/sanitized bytes.
 - **Start / Stop Capture:** manage the single background worker.
 - **Clear Data:** remove in-memory metadata. It does not delete any downloaded file.
 - **Protocol, Source IP, Destination IP:** filter dashboard statistics, table, details, and CSV export.
+- **Reset Display Filters:** clears all three display filters. Use it before each safe test so an earlier ICMP filter does not hide DNS or TCP packets.
 - **Maximum Displayed Packets:** limits table rendering, not the statistics or export dataset.
 - **Auto Refresh:** updates the live dashboard fragment without spawning a new capture thread.
 
@@ -30,7 +33,8 @@ The download contains only:
 
 Active filters apply to the export. Raw payload, preview, TCP flags, and summaries are deliberately excluded.
 
+The dashboard states how many packets were captured and how many match the current filters. If total capture increases but matching packets remains zero, reset the filters rather than changing the capture interface.
+
 ## Ending a session
 
 Stop capture first, close the browser tab, and press `Ctrl+C` in the Streamlit terminal. Do not commit real exports or packet captures.
-

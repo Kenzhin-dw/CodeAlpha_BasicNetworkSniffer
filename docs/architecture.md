@@ -27,7 +27,7 @@ flowchart TD
 ## Thread lifecycle
 
 1. The cached manager begins in `Stopped` state.
-2. **Start Capture** validates the interface and refuses to create another worker when already running.
+2. **Start Capture** resolves Auto to the default-route interface or All-active to a list of usable adapters, then refuses to create another worker when already running.
 3. Scapy invokes a small callback on its background thread. The callback parses one packet and appends it under a lock.
 4. The dashboard reads a copied snapshot, never the mutable buffer itself.
 5. **Stop Capture** calls `stop(join=True)` and returns the manager to `Stopped`.
@@ -37,5 +37,4 @@ The buffer is intentionally bounded; older display records are discarded if a lo
 
 ## Privacy boundary
 
-Only traffic visible on the selected local interface is observed. Full payload, credentials, cookies, and packet files are not exported. The optional preview is off by default, is printable-text sanitized, and is never included in CSV.
-
+Only traffic visible on the selected local interface or interfaces is observed. Full payload, credentials, cookies, and packet files are not exported. The optional preview is off by default, is printable-text sanitized, and is never included in CSV.

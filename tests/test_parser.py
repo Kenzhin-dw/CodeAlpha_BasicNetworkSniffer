@@ -4,6 +4,7 @@ from scapy.layers.inet6 import IPv6
 from scapy.packet import Raw
 
 from sniffer.parser import parse_packet
+from sniffer.capture import CaptureManager
 
 
 def test_parse_ipv4_tcp_http_metadata_without_preview() -> None:
@@ -62,3 +63,9 @@ def test_parse_icmp_and_ipv6() -> None:
 def test_non_ip_packet_is_ignored() -> None:
     assert parse_packet(Raw(load=b"not an IP packet")) is None
 
+
+def test_interface_address_filter_excludes_windows_link_local() -> None:
+    assert CaptureManager._has_usable_address("10.0.0.5") is True
+    assert CaptureManager._has_usable_address("127.0.0.1") is True
+    assert CaptureManager._has_usable_address("169.254.20.10") is False
+    assert CaptureManager._has_usable_address("No IP address") is False

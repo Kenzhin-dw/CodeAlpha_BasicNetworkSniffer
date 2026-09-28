@@ -25,6 +25,13 @@ def get_capture_manager() -> CaptureManager:
     return CaptureManager(capacity=10_000)
 
 
+def reset_display_filters() -> None:
+    """Clear filters without stopping the active capture."""
+    st.session_state["protocol_filter"] = []
+    st.session_state["source_filter"] = ""
+    st.session_state["destination_filter"] = ""
+
+
 def format_bytes(value: int) -> str:
     size = float(value)
     for unit in ("B", "KB", "MB", "GB"):
@@ -74,13 +81,20 @@ def render_dashboard(
     stats = calculate_statistics(filtered)
 
     metric_columns = st.columns(5)
-    metric_columns[0].metric("Total Packets", stats["total_packets"])
+    metric_columns[0].metric("Total Captured", len(packets))
     metric_columns[1].metric("TCP", stats["tcp_count"])
     metric_columns[2].metric("UDP", stats["udp_count"])
     metric_columns[3].metric("ICMP", stats["icmp_count"])
     metric_columns[4].metric("Total Traffic", format_bytes(stats["total_bytes"]))
 
     st.subheader("Live Packets")
+    filters_active = bool(protocol_filter or source_filter.strip() or destination_filter.strip())
+    if filters_active:
+        st.caption(
+            f"Display filters are active: {len(filtered)} of {len(packets)} captured packets match."
+        )
+    else:
+        st.caption(f"Showing captured traffic without display filters ({len(packets)} packets).")
     if not displayed:
         st.info("No packets match the current filters. Start capture or generate normal local traffic.")
     else:
@@ -171,13 +185,20 @@ def main() -> None:
 
     with st.sidebar:
         st.header("Capture Controls")
-        interfaces = manager.interfaces()
+        show_individual_interfaces = st.checkbox(
+            "Advanced: show individual interfaces",
+            value=False,
+            disabled=status.state == CaptureState.RUNNING,
+            help="Normally use Auto. Choose All active interfaces only when traffic spans adapters.",
+        )
+        interface_options = manager.interface_options(show_individual_interfaces)
         selected_interface = st.selectbox(
             "Network Interface",
-            interfaces,
-            index=0 if interfaces else None,
+            interface_options,
+            index=0 if interface_options else None,
+            format_func=lambda option: option.label,
             placeholder="No interfaces available",
-            disabled=status.state == CaptureState.RUNNING or not interfaces,
+            disabled=status.state == CaptureState.RUNNING or not interface_options,
         )
         preview_enabled = st.checkbox(
             "Optional sanitized payload preview",
@@ -193,10 +214,11 @@ def main() -> None:
         if start_column.button(
             "Start Capture",
             type="primary",
-            disabled=status.state == CaptureState.RUNNING or not interfaces,
+            disabled=status.state == CaptureState.RUNNING or not interface_options,
             use_container_width=True,
         ):
-            if manager.start(selected_interface or "", preview_enabled):
+            selection = selected_interface.value if selected_interface else ""
+            if manager.start(selection, preview_enabled):
                 st.rerun()
         if stop_column.button(
             "Stop Capture",
@@ -213,11 +235,17 @@ def main() -> None:
             st.error("Scapy could not be imported. Install the project requirements.")
         if status.error:
             st.error(status.error)
-        if not interfaces:
+        if not interface_options:
             st.warning("No capture interfaces found. Install Npcap and restart the application.")
 
         st.divider()
         st.header("Display Filters")
+        st.button(
+            "Reset Display Filters",
+            on_click=reset_display_filters,
+            use_container_width=True,
+            help="Use this before each DNS, HTTP, or HTTPS test.",
+        )
         baseline_protocols = {
             "TCP", "UDP", "ICMP", "DNS", "HTTP", "HTTPS/TLS", "FTP-DATA",
             "FTP", "SSH", "TELNET", "SMTP", "DHCP", "POP3", "IMAP", "RDP", "Other",
@@ -228,9 +256,14 @@ def main() -> None:
         protocol_filter = st.multiselect(
             "Protocol Filter",
             sorted(baseline_protocols | observed_protocols),
+            key="protocol_filter",
         )
-        source_filter = st.text_input("Source IP Filter", placeholder="e.g. 192.168.")
-        destination_filter = st.text_input("Destination IP Filter", placeholder="e.g. 8.8.8.8")
+        source_filter = st.text_input(
+            "Source IP Filter", placeholder="e.g. 192.168.", key="source_filter"
+        )
+        destination_filter = st.text_input(
+            "Destination IP Filter", placeholder="e.g. 8.8.8.8", key="destination_filter"
+        )
         maximum_packets = st.slider("Maximum Displayed Packets", 25, 1000, 250, 25)
         auto_refresh = st.checkbox("Auto Refresh", value=True)
         refresh_seconds = st.select_slider("Refresh Interval", [1, 2, 3, 5, 10], value=2)

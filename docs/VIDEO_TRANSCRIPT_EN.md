@@ -50,7 +50,7 @@ The code keeps capture, parsing, statistics, export, and the interface separate.
 
 This is the dashboard. The sidebar contains interface selection, capture controls, filters, and refresh settings.
 
-I select this computer's active interface and keep payload preview disabled.
+I keep Auto recommended selected, reset the display filters, and leave payload preview disabled.
 
 [ACTION: Select the authorized interface and click **Start Capture**.]
 
@@ -98,9 +98,9 @@ The statistics module calculates totals, bytes, average size, top endpoints, por
 
 The tests create synthetic Scapy packets and do not need capture privileges.
 
-The final audit passed ten tests covering packet parsing, sanitized previews, statistics, timeline grouping, empty input, and safe CSV export.
+The final audit passed eleven tests covering packet parsing, interface filtering, sanitized previews, statistics, timeline grouping, empty input, and safe CSV export.
 
-Streamlit AppTest also loaded the dashboard without an application exception. Live capture still depends on Npcap, interface choice, and Windows permissions.
+Streamlit AppTest loaded the dashboard without an application exception. Windows/Npcap diagnostics also captured DNS, HTTP, HTTPS/TLS, TCP, and UDP metadata in Auto and All-active modes.
 
 ## 8. Security and ethics — 04:35 to 05:00
 
@@ -127,4 +127,3 @@ Overall, this project demonstrates authorized packet capture, protocol-aware par
 I learned how packet layers become structured data and how to present them safely.
 
 Thank you for watching.
-

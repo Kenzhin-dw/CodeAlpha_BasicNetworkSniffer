@@ -77,13 +77,12 @@ Streamlit normally opens `http://localhost:8501`. If it does not, copy the Local
 
 ## 7. First capture
 
-1. Select the active Wi-Fi or Ethernet interface in the sidebar.
+1. Keep **Auto (recommended)** selected in the sidebar. Use **All active interfaces** only if traffic spans multiple adapters or loopback.
 2. Leave payload preview disabled for normal use.
 3. Click **Start Capture**.
-4. In a second terminal, run `ping 8.8.8.8` and `nslookup example.com`.
+4. Click **Reset Display Filters**, then in a second terminal run `ping 8.8.8.8` and `nslookup example.com`.
 5. Confirm that the table and charts update.
 6. Click **Stop Capture**.
 7. Click **Download filtered metadata as CSV** and save the file outside the repository or under the ignored `exports/` folder.
 
 If nothing appears, use [troubleshooting.md](troubleshooting.md), especially the interface-selection and Npcap checks.
-

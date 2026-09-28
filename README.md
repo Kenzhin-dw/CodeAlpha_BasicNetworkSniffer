@@ -26,6 +26,7 @@ A beginner-friendly, portfolio-ready dashboard for authorized monitoring of traf
 ## Features
 
 - Background capture without freezing the dashboard
+- Simple `Auto (recommended)` and `All active interfaces` capture choices
 - IPv4 and IPv6 metadata parsing
 - TCP, UDP, ICMP, DNS, HTTP-like, HTTPS/TLS, and common-service labels
 - Timestamp, addresses, ports, length, IP version, TCP flags, summary, and payload length
@@ -96,7 +97,7 @@ python -m streamlit run app.py
 
 Then:
 
-1. Select the active network interface.
+1. Keep **Auto (recommended)** selected for normal internet traffic. Use **All active interfaces** only when traffic may cross Wi-Fi, virtual, and loopback adapters.
 2. Leave payload preview off unless a controlled demo needs it.
 3. Click **Start Capture**.
 4. Generate normal traffic from the same computer.
@@ -154,9 +155,9 @@ Expected observations and the test matrix are in [docs/testing.md](docs/testing.
 
 Final local audit evidence:
 
-- `10 passed` in the synthetic Pytest suite.
+- `11 passed` in the synthetic Pytest suite.
 - Streamlit `AppTest` loaded the dashboard without an application exception.
-- Live capture was not verified in the audit environment because it did not provide Npcap/libpcap; the Windows manual verification cases remain marked Pending.
+- A Windows/Npcap live diagnostic captured DNS, HTTP, HTTPS/TLS, TCP, and UDP traffic in both Auto and All-active modes. Counts depend on background traffic and are not fixed expectations.
 
 ## Screenshots
 
@@ -211,7 +212,7 @@ CodeAlpha_BasicNetworkSniffer/
 - Live capture requires working Npcap access and may require elevation.
 - Application-protocol classification is best-effort.
 - Encrypted TLS content is not readable.
-- Loopback traffic requires the Npcap Loopback Adapter.
+- Loopback traffic requires either **All active interfaces** or the individual loopback adapter under Advanced options.
 - NIC offload can create apparent checksum or segment-size artifacts.
 - The 10,000-record buffer prioritizes UI stability over long-term forensic retention.
 - This is an educational analyzer, not a lossless high-throughput capture appliance.

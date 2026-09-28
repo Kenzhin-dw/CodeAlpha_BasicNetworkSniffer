@@ -36,7 +36,7 @@ Keep payload preview off. Hide IPs, GUIDs, usernames, and unrelated traffic.
 ## 01:50 — Live demo
 
 - Show dashboard stopped
-- Select authorized interface; preview OFF
+- Keep Auto (recommended); preview OFF; reset filters
 - Start capture
 - Run `ping 8.8.8.8`
 - Run `nslookup example.com`
@@ -55,9 +55,9 @@ Keep payload preview off. Hide IPs, GUIDs, usernames, and unrelated traffic.
 ## 04:10 — Testing
 
 - Run `python -m pytest -q`
-- Factual result: 10 passed
+- Factual result: 11 passed
 - Streamlit AppTest: no application exception
-- Live capture requires manual Npcap/interface/permission check
+- Live diagnostic verified DNS, HTTP, HTTPS/TLS, TCP, and UDP metadata
 
 ## 04:35 — Security and ethics
 
@@ -79,4 +79,3 @@ Keep payload preview off. Hide IPs, GUIDs, usernames, and unrelated traffic.
 - Packet capture + parsing + statistics + dashboard + safe export
 - Learned network-layer data flow and privacy controls
 - Thank viewers
-
